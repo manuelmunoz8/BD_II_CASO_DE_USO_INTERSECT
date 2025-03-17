@@ -32,9 +32,9 @@ const options = {
    const intersectSchema = new mongoose.Schema({
 	   
 	  // Caso 1: Array de objetos
-	  intersect: [{
-		edificio: { type: String, required: true }  
-	  }],
+	  // intersect: [{
+		// edificio: { type: String, required: true }  
+	  // }],
 	  // Caso 2: Cadena
 	  edificio:{type: String}
 	  // Caso 3: Array de strings
@@ -42,13 +42,25 @@ const options = {
 		type: String, required: true   
 	  }],*/
    });
+
+   const cross_joinSchema = new mongoose.Schema({
+
+      id_departamento: {type: String, required: true},
+      edificio: {type: String, required: true},
+      presupuesto: {type: String, required: true},
+      created: {type: String, required: true}
+   });
+
+   let crossJoin = new mongoose.model('cross_join', cross_joinSchema);
+   console.log(crossJoin);
    
    let intersect =new mongoose.model('intersect', intersectSchema);
    console.log(intersect)
    try {
-	   
-	 let intersect_a = await intersect.insertOne(query.intersect);
-	 let intersect_b = await intersect.insertOne(query.intersect[0]);
+     
+   let crossJoin_a = await crossJoin.insertMany(query.cross_join)
+	 let intersect_a = await intersect.insertMany(query.intersect);
+//	 let intersect_b = await intersect.insertOne(query.intersect[0]);
 	// let intersect_c = await intersect.insertOne(query);
 	// console.log(intersect_a);
 	 process.exit(0);
